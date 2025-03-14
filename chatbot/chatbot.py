@@ -90,7 +90,7 @@ class State(TypedDict):
 def _remove_thinking_from_message(message: str) -> str:
     close_tag = "</think>"
     tag_length = len(close_tag)
-    return message[message.index(close_tag) + tag_length:].strip()
+    return message[message.find(close_tag) + tag_length :].strip()
 
 def create_history(Welcome_message: Message) -> List[Message]:
     return [Welcome_message]
@@ -169,5 +169,6 @@ class Chatbot:
             yield event
             if isinstance(event, FinalAnswerEvent):
                 response = _remove_thinking_from_message("".join(event.content))
+                # response = "".join(event.content)
                 chat_history.append(Message(role=Role.USER, content=prompt))
                 chat_history.append(Message(role=Role.ASSISTANT, content=response))

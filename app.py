@@ -91,5 +91,4 @@ if prompt := st.chat_input("Type your messages..."):
             if isinstance(event, ChunkEvent):
                 chunk = event.content
                 full_response += chunk
-                message_placeholder.markdown(random.choice(LOADING_MESSAGES))
-
+                message_placeholder.markdown(full_response)
