@@ -66,9 +66,53 @@ if "messages" not in st.session_state:
     st.session_state.messages = create_history(WELCOME_MESSAGE)
 
 with st.sidebar:
-    st.title("Files Uploaded")
-    file_list_text = "\n".join([f"- {file.name}" for file in chatbot.files])
-    st.markdown(file_list_text)
+    st.title("📂 Document Repository")
+    st.divider()
+    
+    if chatbot.files:
+        for i, file in enumerate(chatbot.files, start=1):
+            file_extension = file.name.split('.')[-1].lower()
+            
+            # File type icon based on extension
+            if file_extension == 'pdf':
+                file_icon = "📄"
+            elif file_extension == 'md':
+                file_icon = "📝"
+            elif file_extension == 'txt':
+                file_icon = "📃"
+            else:
+                file_icon = "📎"
+            
+            # Create a card-like container for each file
+            st.markdown(
+                f"""
+                <div style='padding: 12px 15px; 
+                           margin-bottom: 10px; 
+                           background-color: rgba(240, 242, 246, 0.4); 
+                           border-radius: 8px; 
+                           border-left: 4px solid #4E8DF5;
+                           box-shadow: 0 1px 2px rgba(0,0,0,0.1);'>
+                    <div style='display: flex; align-items: center;'>
+                        <span style='font-size: 1.2rem; margin-right: 10px;'>{file_icon}</span>
+                        <span style='font-weight: 500;'>{file.name}</span>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    
+    # Add additional sidebar information
+    st.divider()
+    st.caption("Supported formats: PDF, Markdown, TXT")
+    
+    # Add a mini stats section 
+    if chatbot.files:
+        st.markdown("### Quick Stats")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Files", len(chatbot.files))
+        with col2:
+            st.metric("Types", len(set(f.name.split('.')[-1].lower() for f in chatbot.files)))
 
 for message in st.session_state.messages:
     avatar = "🤖" if message.role == Role.ASSISTANT else "🧑‍💼"
