@@ -47,7 +47,7 @@ def show_uploaded_documents() -> List[UploadedFile]:
         st.write(f"Selected option: {db_option}")
 
         uploaded_files = st.file_uploader(
-            label="Upload PDF, MD, or TXT fiales",
+            label="Upload PDF, MD, or TXT files",
             type=["pdf", "md", "txt"],
             accept_multiple_files=True,
         )
