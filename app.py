@@ -32,22 +32,22 @@ st.set_page_config(
     page_title="IntelliRAG",
     page_icon="🧠",
     layout="centered",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
 st.header("IntelliRAG: AI Assistant for Document Analysis and web scraping")
 st.subheader("Private intelligence for your thoughts and files")
 
-@st.cache_resource(show_spinner=False)
-def create_chatbot(files: List[UploadedFile]):
-    files = [load_uploaded_file(file) for file in files]
-    return Chatbot(files)
-
 def show_uploaded_documents() -> List[UploadedFile]:
     holder = st.empty()
     with holder.container():
+        # dropdown to select inmemeory and vector db option
+        db_option = st.selectbox("Select Vector store Option", ["InMemory", "Pinecone"])
+        st.session_state["db_option"] = db_option
+        st.write(f"Selected option: {db_option}")
+
         uploaded_files = st.file_uploader(
-            label="Upload PDF, MD, or TXT files",
+            label="Upload PDF, MD, or TXT fiales",
             type=["pdf", "md", "txt"],
             accept_multiple_files=True,
         )
@@ -58,6 +58,11 @@ def show_uploaded_documents() -> List[UploadedFile]:
     with st.spinner("Analyzing your files..."):
         holder.empty()
         return uploaded_files
+
+@st.cache_resource(show_spinner=False)
+def create_chatbot(files: List[UploadedFile]):
+    files = [load_uploaded_file(file) for file in files]
+    return Chatbot(files)
     
 uploaded_files = show_uploaded_documents()
 chatbot = create_chatbot(uploaded_files)
@@ -67,8 +72,9 @@ if "messages" not in st.session_state:
 
 with st.sidebar:
     st.title("📂 Document Repository")
+    st.write(f"Selected Vector Database: {st.session_state["db_option"]}")
     st.divider()
-    
+
     if chatbot.files:
         for i, file in enumerate(chatbot.files, start=1):
             file_extension = file.name.split('.')[-1].lower()

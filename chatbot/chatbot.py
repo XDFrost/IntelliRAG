@@ -12,8 +12,22 @@ from langchain_core.messages import AIMessage, HumanMessage
 from langgraph.constants import START
 
 from config.config import Config
-from data_ingestor.data_ingestor import ingest_files
 from file_loader.file_loader import File
+
+# from data_ingestor.data_ingestor import ingest_files        # InMemory
+# from data_ingestor.pinecone_data_ingestor import ingest_files        # Pinecone
+
+import importlib
+import streamlit as st
+if "db_option" not in st.session_state:
+    st.session_state["db_option"] = "InMemory"  
+if(st.session_state["db_option"] == "Pinecone"):
+    module = importlib.import_module("data_ingestor.pinecone_data_ingestor")
+else:
+    module = importlib.import_module("data_ingestor.data_ingestor")
+
+importlib.reload(module)        # Reload the module to get the latest changes
+ingest_files = getattr(module, "ingest_files")
 
 
 SYSTEM_PROMPT = """

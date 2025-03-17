@@ -25,6 +25,13 @@ class Config:
     class Chatbot:
         N_CONTEXT_RESULTS = 3
 
+    class VectorDB:
+        PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+        PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT")
+        PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
+        PINECONE_EMBEDDING_DIMENSION = os.getenv("-PINECONE_EMBEDDING_DIMENSION")
+        PINECONE_NAMESPACE = os.getenv("PINECONE_NAMESPACE")
+
     class Path:
         APP_HOME = Path(os.getenv("APP_HOME", Path(__file__).parent.parent))      # Path to the root of the project
         DATA_DIR = APP_HOME / "data"                                              # Path to the data directory
