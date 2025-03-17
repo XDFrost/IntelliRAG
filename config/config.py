@@ -16,9 +16,8 @@ class Config:
         CHUNK_SIZE = 2048
         CHUNK_OVERLAP = 128
         # EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"      
-        # RERANKER = "ms-marco-MiniLM-L-12-v2"       
         EMBEDDING_MODEL = "models/bge-small-en-v1.5"      
-        RERANKER = "models/ms-marco-MiniLM-L12-v2"       
+        RERANKER = "ms-marco-MiniLM-L-12-v2"       
         LLM = "llama3.2"
         CONTEXUALIZE_CHUNKS = True
         N_SEMENTIC_RESULTS = 5
