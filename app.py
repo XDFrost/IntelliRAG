@@ -3,6 +3,7 @@ from typing import List
 
 import streamlit as st
 from streamlit.runtime.uploaded_file_manager import UploadedFile
+from streamlit_js_eval import streamlit_js_eval
 
 from chatbot.chatbot import Chatbot, ChunkEvent, Message, Role, SourcesEvent, create_history
 from file_loader.file_loader import load_uploaded_file
@@ -119,6 +120,11 @@ with st.sidebar:
             st.metric("Files", len(chatbot.files))
         with col2:
             st.metric("Types", len(set(f.name.split('.')[-1].lower() for f in chatbot.files)))
+    
+    if st.button("Reset chat"):
+        st.cache_data.clear()
+        st.cache_resource.clear()
+        streamlit_js_eval(js_expressions="parent.window.location.reload()")
 
 for message in st.session_state.messages:
     avatar = "🤖" if message.role == Role.ASSISTANT else "🧑‍💼"
