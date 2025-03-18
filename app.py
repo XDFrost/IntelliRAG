@@ -45,7 +45,6 @@ def show_uploaded_documents() -> List[UploadedFile]:
         # dropdown to select inmemeory and vector db option
         db_option = st.selectbox("Select Vector store Option", ["InMemory", "Pinecone"])
         st.session_state["db_option"] = db_option
-        st.write(f"Selected option: {db_option}")
 
         uploaded_files = st.file_uploader(
             label="Upload PDF, MD, or TXT files",
