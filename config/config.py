@@ -8,7 +8,7 @@ class Config:
     ALLOWED_FILE_EXTENSIONS = set(['.pdf', '.md', '.txt'])
 
     class Model:
-        # NAME = "deepseek-r1:14b"
+        # NAME = "deepseek-r1:1.5b"
         NAME = "gemma3:1b"
         TEMPERATURE = 0.6
 
